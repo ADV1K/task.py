@@ -54,6 +54,7 @@ def print_tasks(tasks: Iterable[tuple[TaskID, Task]]) -> None:
     table.add_column("[#DAF7A6]Status[/]", justify="center")
     table.add_column("[#FFC300]Created At[/]", justify="center", style="dim")
     table.add_column("[#DAF7A6]Due Date[/]", justify="center", style="magenta")
+    table.add_column("[#FFC300]Tags[/]", justify="center", style="green")
 
     for task_id, task in tasks:
         created_at_str = task.created_at.strftime("%Y-%m-%d %H:%M")
@@ -72,6 +73,7 @@ def print_tasks(tasks: Iterable[tuple[TaskID, Task]]) -> None:
             Text(task.status.value, style=status_style),
             created_at_str,
             due_date_str,
+            ", ".join(task.tags)
         )
 
     console.print(table)

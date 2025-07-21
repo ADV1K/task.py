@@ -1,0 +1,49 @@
+{
+    "tasks": {
+        "1": {
+            "description": "Buy groceries",
+            "status": "done",
+            "tags": [
+                "home"
+            ],
+            "created_at": "2025-07-22T01:45:24.405069",
+            "due_date": "2025-07-23T01:45:24.429693"
+        },
+        "2": {
+            "description": "Call client",
+            "status": "todo",
+            "tags": [
+                "work"
+            ],
+            "created_at": "2025-07-22T01:45:44.114924",
+            "due_date": "2025-08-21T00:00:00"
+        },
+        "3": {
+            "description": "Submit report",
+            "status": "active",
+            "tags": [
+                "office"
+            ],
+            "created_at": "2025-07-22T01:45:56.161834",
+            "due_date": "2025-07-25T00:00:00"
+        },
+        "4": {
+            "description": "Meeting setup",
+            "status": "todo",
+            "tags": [
+                "home"
+            ],
+            "created_at": "2025-07-22T01:46:56.641863",
+            "due_date": "2025-07-25T00:00:00"
+        },
+        "5": {
+            "description": "Buy flowers",
+            "status": "todo",
+            "tags": [
+                "shop"
+            ],
+            "created_at": "2025-07-22T01:49:05.864279",
+            "due_date": "2025-07-28T00:00:00"
+        }
+    }
+}

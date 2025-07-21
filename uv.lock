@@ -196,7 +196,7 @@ wheels = [
 ]
 
 [[package]]
-name = "task-py"
+name = "task"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
@@ -205,12 +205,20 @@ dependencies = [
     { name = "typer" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "task" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "dateparser", specifier = ">=1.2.2" },
     { name = "pydantic", specifier = ">=2.11.7" },
     { name = "typer", specifier = ">=0.16.0" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "task", virtual = "." }]
 
 [[package]]
 name = "typer"
