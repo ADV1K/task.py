@@ -1,7 +1,18 @@
 # Task.py
 Manage your tasks. Anytime. Anywhere.
 
+<img src="screenshot.png" width="100%">
+
 ## Quickstart
+
+### Installing
+
+1. Install Task.py
+```bash
+uv tool install git+https://github.com/adv1k/task.py
+```
+
+### Developing Locally
 
 1. Create venv
 ```bash
@@ -13,9 +24,9 @@ uv sync
 source venv/bin/activate
 ```
 
-2. Install Task.py
+2. Install Task.py in venv
 ```bash
-uv pip install .
+uv pip install -e .
 ```
 
 ## Easy-to-Use Interface
@@ -81,12 +92,12 @@ task del 3
 
 ## Features
 Task.py is built with a focus on extensibility, maintainability, and modern Python development practices:
-    - Easy to use: Clear and concise commands like add, ls, done, clean, and del, managing your tasks is straightforward and quick, requiring minimal learning curve.
-    - Plugin System: Task.py has a plugin system, allowing for easy integration with third-party services.
-    - Clean, Composable Code: The codebase is designed for clarity and modularity. Task.py stands on the shoulder of these giants:
-        - Typer: For building the command-line interface, providing a clean and intuitive CLI.
-        - Pydantic: For data validation, serialization and just making things straightforward.
-    - Type Hinting & Best Practices: The project extensively uses Python type hints for improved code readability, maintainability, and to catch potential errors early.
+- Easy to use: Clear and concise commands like add, ls, done, clean, and del, managing your tasks is straightforward and quick, requiring minimal learning curve.
+- Plugin System: Task.py has a plugin system, allowing for easy integration with third-party services.
+- Clean, Composable Code: The codebase is designed for clarity and modularity. Task.py stands on the shoulder of these giants:
+    - Typer: For building the command-line interface, providing a clean and intuitive CLI.
+    - Pydantic: For data validation, serialization and just making things straightforward.
+- Type Hinting & Best Practices: The project extensively uses Python type hints for improved code readability, maintainability, and to catch potential errors early.
 
 
 ## Future
