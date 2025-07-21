@@ -19,6 +19,7 @@ from task_tracker.plugins import TaskStorageProtocol
 
 class TaskJsonFile(BaseModel):
     """tasks.json file format"""
+
     tasks: dict[TaskID, Task] = Field(default_factory=dict)
 
 

@@ -4,7 +4,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-TaskID = str
+TaskID = Tag = str
 
 
 class ProgressStatus(StrEnum):
@@ -14,8 +14,9 @@ class ProgressStatus(StrEnum):
 
 
 class Task(BaseModel):
-    description: str
+    description: str = ""
     status: ProgressStatus = ProgressStatus.TODO
+    tags: set[Tag] = Field(default_factory=set)
     created_at: datetime = Field(default_factory=datetime.now)
     due_date: Optional[datetime] = None
 
