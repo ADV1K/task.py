@@ -12,7 +12,7 @@ from task_tracker import (
 from task_tracker.helpers import print_tasks, sort_by_due_date, task_parser
 from task_tracker.plugins.json import JsonStorage, TaskStorageProtocol
 
-DEFAULT_JSON_FILE = Path() / "tasks.json"
+DEFAULT_JSON_FILE = Path().home() / "tasks.json"
 app = typer.Typer(no_args_is_help=True)
 
 
@@ -41,7 +41,7 @@ def list_tasks(ctx: typer.Context):
 
 @app.command("add")
 def create_task(task: list[str], ctx: typer.Context):
-    """"Add a new task."""
+    """Add a new task."""
     with ctx.obj.store as store:
         store.create_task(task_parser(task))
 

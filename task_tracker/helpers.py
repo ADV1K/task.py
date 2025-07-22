@@ -3,6 +3,8 @@ from datetime import datetime
 from typing import Iterable
 
 import dateparser
+import humanize
+import tzlocal
 from rich.console import Console
 from rich.table import Table
 from rich.text import Text
@@ -42,7 +44,14 @@ def print_tasks(tasks: Iterable[tuple[TaskID, Task]]) -> None:
     """
     console = Console()
     if not tasks:
-        console.print(Text("No tasks found.", justify="center", style="italic red"))
+        console.print(
+            Text(
+                "No tasks found. Add a task using `task add`",
+                justify="center",
+                style="italic red",
+            )
+        )
+        return
 
     table = Table(
         # title="[bold blue]Task List[/bold blue]",
@@ -57,10 +66,6 @@ def print_tasks(tasks: Iterable[tuple[TaskID, Task]]) -> None:
     table.add_column("[#FFC300]Tags[/]", justify="center", style="green")
 
     for task_id, task in tasks:
-        created_at_str = task.created_at.strftime("%Y-%m-%d %H:%M")
-        due_date_str = (
-            task.due_date.strftime("%Y-%m-%d %H:%M") if task.due_date else "N/A"
-        )
         status_style = {
             ProgressStatus.TODO: "bold yellow",
             ProgressStatus.ACTIVE: "bold blue",
@@ -68,12 +73,12 @@ def print_tasks(tasks: Iterable[tuple[TaskID, Task]]) -> None:
         }.get(task.status, "white")
 
         table.add_row(
-            str(task_id),
+            task_id,
             task.description,
             Text(task.status.value, style=status_style),
-            created_at_str,
-            due_date_str,
-            ", ".join(task.tags)
+            humanize.naturalday(task.created_at),
+            humanize.naturalday(task.due_date) if task.due_date else "N/A",
+            ", ".join(task.tags),
         )
 
     console.print(table)

@@ -3,6 +3,11 @@ Manage your tasks. Anytime. Anywhere.
 
 <img src="screenshot.png" width="100%">
 
+
+## Supported Plugins
+### JSON
+Task.py comes with a json plugin which stores the tasks in ~/tasks.json file.
+
 ## Quickstart
 
 ### Installing
