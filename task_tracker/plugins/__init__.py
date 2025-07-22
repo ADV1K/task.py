@@ -1,6 +1,12 @@
-from typing import Any, Protocol, Self, runtime_checkable
+from enum import StrEnum, auto
+from typing import Any, Literal, Protocol, Self, runtime_checkable
 
 from task_tracker import Task, TaskID, TaskUpdate
+
+
+class AvailablePlugins(StrEnum):
+    JSON = auto()
+    GOOGLE = auto()
 
 
 @runtime_checkable

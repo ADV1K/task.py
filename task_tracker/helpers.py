@@ -1,10 +1,11 @@
 import re
+import time
+from contextlib import contextmanager
 from datetime import datetime
 from typing import Iterable
 
 import dateparser
 import humanize
-import tzlocal
 from rich.console import Console
 from rich.table import Table
 from rich.text import Text
@@ -13,6 +14,18 @@ from task_tracker import ProgressStatus, Task, TaskID
 
 TAGS_PATTERN = re.compile(r"^@(?P<tag_name>\S+)$")  # Matches @tag
 DUE_DATE_PATTERN = re.compile(r"^due:(?P<due_value>\S+)$")  # Matches due:value
+
+
+def print_error(error: str):
+    Console().print(f"[italic red]{error: str}[/]")
+
+
+@contextmanager
+def Timer(label):
+    start = time.perf_counter()
+    yield
+    end = time.perf_counter()
+    print(f"{label} took {end - start:.4f} seconds")
 
 
 def task_parser(words: list[str]) -> Task:
@@ -44,13 +57,7 @@ def print_tasks(tasks: Iterable[tuple[TaskID, Task]]) -> None:
     """
     console = Console()
     if not tasks:
-        console.print(
-            Text(
-                "No tasks found. Add a task using `task add`",
-                justify="center",
-                style="italic red",
-            )
-        )
+        print_error("No tasks found. Add a task using `task add`")
         return
 
     table = Table(

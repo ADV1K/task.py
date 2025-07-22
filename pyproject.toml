@@ -6,7 +6,11 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "dateparser>=1.2.2",
+    "google-api-python-client>=2.176.0",
+    "google-api-python-client-stubs>=1.30.0",
+    "google-auth-oauthlib>=1.2.2",
     "humanize>=4.12.3",
+    "platformdirs>=4.3.8",
     "pydantic>=2.11.7",
     "typer>=0.16.0",
 ]

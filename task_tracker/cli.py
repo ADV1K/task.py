@@ -1,55 +1,44 @@
-from dataclasses import dataclass
-from pathlib import Path
-
 import typer
 
-from task_tracker import (
-    ProgressStatus,
-    StorageError,
-    TaskNotFoundError,
-    TaskUpdate,
-)
-from task_tracker.helpers import print_tasks, sort_by_due_date, task_parser
-from task_tracker.plugins.json import JsonStorage, TaskStorageProtocol
+from task_tracker import ProgressStatus, TaskNotFoundError, TaskUpdate
+from task_tracker.config import context
+from task_tracker.helpers import Timer, print_tasks, sort_by_due_date, task_parser
+from task_tracker.plugins import AvailablePlugins
 
-DEFAULT_JSON_FILE = Path().home() / "tasks.json"
+# from task_tracker.plugins.google import google_plugin_cli
+
+# PLUGINS
+plugin = typer.Typer()
+# plugin.add_typer(google_plugin_cli, name="google", help="Manage Google Tasks Plugin")
+
 app = typer.Typer(no_args_is_help=True)
-
-
-@dataclass
-class AppContext:
-    store: TaskStorageProtocol
+app.add_typer(plugin, name="plugin", help="Manage Plugins")
 
 
 @app.callback()
-def main(ctx: typer.Context):
+def setup():
     """Manage your tasks. Anytime. Anywhere."""
-    try:
-        ctx.obj = AppContext(store=JsonStorage(DEFAULT_JSON_FILE))
-    except StorageError:
-        print("Error: Invalid task data file. Please check 'tasks.json'.")
-        raise typer.Exit(1)
 
 
-@app.command("list")
-@app.command("ls", hidden=True)
-def list_tasks(ctx: typer.Context):
-    """List all tasks. Alias: ls"""
-    with ctx.obj.store as store:
+# ROOT COMMANDS
+@app.command("ls")
+def list_tasks():
+    """List all tasks."""
+    with context.store as store:
         print_tasks(sort_by_due_date(store.list_tasks()))
 
 
 @app.command("add")
-def create_task(task: list[str], ctx: typer.Context):
+def create_task(task: list[str]):
     """Add a new task."""
-    with ctx.obj.store as store:
+    with context.store as store:
         store.create_task(task_parser(task))
 
 
 @app.command("done")
-def mark_completed(task_id: str, ctx: typer.Context):
+def mark_completed(task_id: str):
     """Mark a task is completed."""
-    with ctx.obj.store as store:
+    with context.store as store:
         try:
             task = store.read_task(task_id)
             task.status = ProgressStatus.DONE
@@ -60,9 +49,9 @@ def mark_completed(task_id: str, ctx: typer.Context):
 
 
 @app.command("active")
-def mark_active(task_id: str, ctx: typer.Context):
+def mark_active(task_id: str):
     """Mark a task is active."""
-    with ctx.obj.store as store:
+    with context.store as store:
         try:
             task = store.read_task(task_id)
             task.status = ProgressStatus.ACTIVE
@@ -73,9 +62,9 @@ def mark_active(task_id: str, ctx: typer.Context):
 
 
 @app.command("del")
-def delete_task(task_id: str, ctx: typer.Context):
+def delete_task(task_id: str):
     """Delete a task."""
-    with ctx.obj.store as store:
+    with context.store as store:
         try:
             store.delete_task(task_id)
             print(f"Deleted task #{task_id}")
@@ -84,9 +73,9 @@ def delete_task(task_id: str, ctx: typer.Context):
 
 
 @app.command("clean")
-def delete_completed(ctx: typer.Context):
+def delete_completed():
     """Remove completed tasks."""
-    with ctx.obj.store as store:
+    with context.store as store:
         count = 0
         for task_id, task in store.list_tasks().items():
             if store.read_task(task_id).status == ProgressStatus.DONE:
@@ -95,5 +84,8 @@ def delete_completed(ctx: typer.Context):
         print(f"Deleted {count} completed tasks.")
 
 
-if __name__ == "__main__":
-    app()
+# PLUGIN COMMANDS
+@plugin.command("use")
+def change_default_plugin(plugin: AvailablePlugins):
+    """Switch default Plugin"""
+    print("DONE")
